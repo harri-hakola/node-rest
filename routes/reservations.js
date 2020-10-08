@@ -8,8 +8,13 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    const reservation = {
+        reservationId: req.body.reservationId,
+        quantity: req.body.quantity
+    };
     res.status(201).json({
-        message: 'Reservation was created'
+        message: 'Reservation was created',
+        reservation: reservation
     });
 });
 
