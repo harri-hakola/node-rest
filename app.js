@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 const serviceRoutes = require('./routes/services');
 const reservationRoutes = require('./routes/reservations');
+const userRoutes = require('./routes/users');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 
 app.use('/services', serviceRoutes);
 app.use('/reservations', reservationRoutes);
+app.use('/users', userRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
@@ -34,11 +36,12 @@ const mongoose_url = 'mongodb+srv://reservationdb:kwENGj6AdHYIeDJA@cluster0.4kva
 
 mongoose.connect(mongoose_url, {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex:true
 }).then(() => {
     console.log('DB connected');
     app.listen(8080);
 });
 
-//https://www.youtube.com/watch?v=CMDsTMV2AgI
+//https://www.youtube.com/watch?v=0D5EEKH97NA
 //https://www.youtube.com/c/Academind/videos

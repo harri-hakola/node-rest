@@ -24,11 +24,12 @@ router.post('/', (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price
+
     });
     service.save().then(result => {
         console.log(result);
         res.status(201).json({
-            message:"Handling POST requests to /services",
+            message:"Created service successfully",
             createdService: result
             });
         })
