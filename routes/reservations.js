@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const Reservation = require('../models/reservation');
 const Service = require('../models/service');
 
+//Hae kaikki varaukset
 router.get('/', (req, res, next) => {
     Reservation.find()
     .populate('service')
@@ -19,6 +20,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
+//Luo varaus
 router.post('/', (req, res, next) => {
     Service.findById(req.body.serviceId)
     .then(service => {
@@ -54,6 +56,7 @@ router.post('/', (req, res, next) => {
   
 });
 
+//Hae varaus ID:llä
 router.get('/:reservationId', (req, res, next) => {
    Reservation.findById(req.params.reservationId)
    .populate('service')
@@ -79,7 +82,28 @@ router.get('/:reservationId', (req, res, next) => {
    });
 });
 
+//Varauksen muutos ID:llä
+router.patch('/:reservationId', (req,res,next) => {
+    const id = req.params.reservationId;
+    const updateOps = {};
+    for (const ops of req.body) {
+        updateOps[ops.propName] = ops.value;
+    }
+    Reservation.update({_id: id}, { $set: updateOps })
+    .exec()
+    .then(result => {
+        console.log(result);
+        res.status(200).json(result);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
+});
 
+//Poista varaus ID:llä
 router.delete('/:reservationId', (req, res, next) => {
     Reservation.remove({ _id: req.params.reservationId })
     .exec()

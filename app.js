@@ -1,14 +1,12 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const serviceRoutes = require('./routes/services');
 const reservationRoutes = require('./routes/reservations');
 const userRoutes = require('./routes/users');
 
-app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -31,7 +29,7 @@ app.use((error, req, res, next) => {
     });
 });
 
-//Connect to DB
+//Yhteys tietokantaan
 const mongoose_url = 'mongodb+srv://reservationdb:kwENGj6AdHYIeDJA@cluster0.4kvam.mongodb.net/test?retryWrites=true&w=majority';
 
 mongoose.connect(mongoose_url, {
@@ -43,5 +41,3 @@ mongoose.connect(mongoose_url, {
     app.listen(8080);
 });
 
-//https://www.youtube.com/watch?v=0D5EEKH97NA
-//https://www.youtube.com/c/Academind/videos

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const Service = require('../models/service');
 
+//Hae kaikki palvelut
 router.get('/', (req, res, next) => {
     Service.find()
     .exec()
@@ -19,6 +20,7 @@ router.get('/', (req, res, next) => {
     })
 });
 
+//Lisää palvelu
 router.post('/', (req, res, next) => {
     const service = new Service({
         _id: new mongoose.Types.ObjectId(),
@@ -44,6 +46,7 @@ router.post('/', (req, res, next) => {
     
 });
 
+//Hae palvelu ID:llä
 router.get('/:serviceId', (req,res,next) => {
     const id = req.params.serviceId;
     Service.findById(id)
@@ -64,7 +67,7 @@ router.get('/:serviceId', (req,res,next) => {
 });
 
 
-
+//Palvelun muutos ID:llä
 router.patch('/:serviceId', (req,res,next) => {
     const id = req.params.serviceId;
     const updateOps = {};
@@ -86,7 +89,7 @@ router.patch('/:serviceId', (req,res,next) => {
 });
 
 
-
+//Palvelun poisto ID:llä
 router.delete('/:serviceId', (req,res,next) => {
     const id = req.params.serviceId;
     Service.deleteOne({_id: id})
