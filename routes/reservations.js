@@ -5,27 +5,27 @@ const mongoose = require('mongoose');
 const Reservation = require('../models/reservation');
 const Service = require('../models/service');
 
-//Hae kaikki varaukset
+//Get all reservations
 router.get('/', (req, res, next) => {
     Reservation.find()
     .populate('service')
     .exec()
     .then(docs => {
-        res.status(200).json(docs);
+        res.status(200).json(docs); //200; OK
     })
     .catch(err => {
-        res.status(500).json({
+        res.status(500).json({ //500; Generic server error
             error: err
         })
     });
 });
 
-//Luo varaus
+//Add reservation
 router.post('/', (req, res, next) => {
     Service.findById(req.body.serviceId)
     .then(service => {
         if (!service) {
-            return res.status(404).json({
+            return res.status(404).json({ //404; Not found
                 message: 'Service not found'
             });
         }
@@ -40,15 +40,15 @@ router.post('/', (req, res, next) => {
         })
         
         .then(result => {
-            if(res.statusCode===404){
+            if(res.statusCode===404){ //404; Not found
                 return res;
             }
             console.log(result);
-            res.status(201).json(result);
+            res.status(201).json(result); //201; Created OK
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({
+            res.status(500).json({ //500; Generic server error
                 error: err
             });
     });
@@ -56,18 +56,18 @@ router.post('/', (req, res, next) => {
   
 });
 
-//Hae varaus ID:llä
+//Get reservation by ID
 router.get('/:reservationId', (req, res, next) => {
    Reservation.findById(req.params.reservationId)
    .populate('service')
    .exec()
    .then(reservation => {
        if(!reservation) {
-           return res.status(404).json({
+           return res.status(404).json({ //404; Not found
                message: 'Reservation not found'
            });
        }
-       res.status(200).json({
+       res.status(200).json({ //200; OK
            reservation: reservation,
            request: {
                type: 'GET',
@@ -76,13 +76,13 @@ router.get('/:reservationId', (req, res, next) => {
        });
    })
    .catch(err => {
-       res.status(500).json({
+       res.status(500).json({ //500; Generic server error
            error: err
        });
    });
 });
 
-//Varauksen muutos ID:llä
+//Modify reservation by ID
 router.patch('/:reservationId', (req,res,next) => {
     const id = req.params.reservationId;
     const updateOps = {};
@@ -93,22 +93,22 @@ router.patch('/:reservationId', (req,res,next) => {
     .exec()
     .then(result => {
         console.log(result);
-        res.status(200).json(result);
+        res.status(200).json(result); //200; OK
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({
+        res.status(500).json({ //500; Generic server error
             error: err
         })
     });
 });
 
-//Poista varaus ID:llä
+//Delete reservation by ID
 router.delete('/:reservationId', (req, res, next) => {
     Reservation.remove({ _id: req.params.reservationId })
     .exec()
     .then(result => {
-        res.status(200).json({
+        res.status(200).json({ //200; OK
             message: 'Reservation deleted',
             request: {
                 type: 'POST',
@@ -118,7 +118,7 @@ router.delete('/:reservationId', (req, res, next) => {
     });
 })
     .catch(err => {
-        res.status(500).json({
+        res.status(500).json({ //500; Generic server error
             error: err
         });
     });

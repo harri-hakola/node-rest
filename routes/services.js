@@ -4,23 +4,23 @@ const mongoose = require('mongoose');
 
 const Service = require('../models/service');
 
-//Hae kaikki palvelut
+//Get all services
 router.get('/', (req, res, next) => {
     Service.find()
     .exec()
     .then(docs => {
         console.log(docs);
-        res.status(200).json(docs);
+        res.status(200).json(docs); //200; OK
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({
+        res.status(500).json({ //500; Generic server error
             error: err
         });
     })
 });
 
-//Lisää palvelu
+//Add service
 router.post('/', (req, res, next) => {
     const service = new Service({
         _id: new mongoose.Types.ObjectId(),
@@ -30,14 +30,14 @@ router.post('/', (req, res, next) => {
     });
     service.save().then(result => {
         console.log(result);
-        res.status(201).json({
+        res.status(201).json({ //201; Created OK
             message:"Created service successfully",
             createdService: result
             });
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({
+            res.status(500).json({ //500; Generic server error
                 error: err
             });
         });         
@@ -46,7 +46,7 @@ router.post('/', (req, res, next) => {
     
 });
 
-//Hae palvelu ID:llä
+//Get service by ID
 router.get('/:serviceId', (req,res,next) => {
     const id = req.params.serviceId;
     Service.findById(id)
@@ -54,20 +54,20 @@ router.get('/:serviceId', (req,res,next) => {
     .then(doc => {
         console.log("Tietokannasta", doc);
         if (doc) {
-            res.status(200).json(doc);
+            res.status(200).json(doc); //200; OK
         } else {
-            res.status(404).json({message: 'ID Not found'});
+            res.status(404).json({message: 'ID Not found'}); //404; Not Found
         }
         
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({error: err});
+        res.status(500).json({error: err}); //500; Generic server error
     });
 });
 
 
-//Palvelun muutos ID:llä
+//Modify service with ID
 router.patch('/:serviceId', (req,res,next) => {
     const id = req.params.serviceId;
     const updateOps = {};
@@ -78,28 +78,28 @@ router.patch('/:serviceId', (req,res,next) => {
     .exec()
     .then(result => {
         console.log(result);
-        res.status(200).json(result);
+        res.status(200).json(result); //200; OK
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({
+        res.status(500).json({ //500; Generic server error
             error: err
         })
     });
 });
 
 
-//Palvelun poisto ID:llä
+//Delete service by ID
 router.delete('/:serviceId', (req,res,next) => {
     const id = req.params.serviceId;
     Service.deleteOne({_id: id})
     .exec()
     .then(result => {
-        res.status(200).json(result);
+        res.status(200).json(result); //200; OK
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({
+        res.status(500).json({ //500; Generic server error
             error: err
         });
     });
