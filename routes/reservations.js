@@ -105,7 +105,7 @@ router.patch('/:reservationId', (req,res,next) => {
 
 //Delete reservation by ID
 router.delete('/:reservationId', (req, res, next) => {
-    Reservation.remove({ _id: req.params.reservationId })
+    Reservation.deleteOne({ _id: req.params.reservationId })
     .exec()
     .then(result => {
         res.status(200).json({ //200; OK

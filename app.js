@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 
 const serviceRoutes = require('./routes/services');
 const reservationRoutes = require('./routes/reservations');
-const userRoutes = require('./routes/users');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
